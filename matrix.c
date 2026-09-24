@@ -113,3 +113,32 @@ matrix matrix_transpose(matrix m) {
 
   return res;
 }
+
+matrix matrix_pow(matrix m, int n)
+{
+	if (m.n1 != m.n2) return {.n1 = 0; .n2 = 0; .ok=false; .data=NULL};
+	if (n <= 0) return matrix_identity(m.n1);
+	matrix m1 = matrix_pow(m, n/2);
+	matrix m2 = matrix_mult(m1, m1);
+	matrix_destroy(m1);
+	if (n % 2) 
+	{
+			matrix m3 = matrix_mult(m2, m);
+			matrix_destroy(m2);
+			return m3;
+	}
+	return m2;
+}
+
+
+double matrix_trace(matrix m)
+{
+		if (m.n1 != m.n2) return 0;
+		double s = 0.0;
+		for(int i=0; i<m.n1; i++)
+		{
+				s += *matrix_get(m, i, i);
+		}
+		return s;
+}
+
