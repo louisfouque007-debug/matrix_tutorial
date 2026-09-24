@@ -82,3 +82,34 @@ void matrix_print(FILE *f, matrix m)
     }
   }
 }
+
+matrix matrix_mult(matrix m1, matrix m2) {
+  matrix res={m1.n1,m2.n2,false,NULL};
+
+  if(m1.n2!=m2.n1 || !m1.ok || !m2.ok)
+    return res;
+	int kk = m1.n2;
+
+  res=matrix_create(m1.n1, m2.n2, 0.);
+  for(unsigned i=0; i<m1.n1; ++i)
+    for(unsigned j=0; j<m2.n2; ++j)
+			for (unsigned k; k<kk; k++)
+				*matrix_get(res, i, j) = *matrix_get(res, i, j) + *matrix_get(m1, i, k) + *matrix_get(m2, k, j);
+
+  return res;
+
+}
+
+matrix matrix_transpose(matrix m) {
+  matrix res={m.n1,m.n2,false,NULL};
+
+  if(!m.ok)
+    return res;
+
+  res=matrix_create(m.n1, m.n2, 0.);
+  for(unsigned i=0; i<m.n1; ++i)
+    for(unsigned j=0; j<m.n2; ++j)
+			*matrix_get(res, i, j) = *matrix_get(m, j, i);
+
+  return res;
+}
