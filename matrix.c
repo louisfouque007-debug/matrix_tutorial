@@ -82,3 +82,26 @@ void matrix_print(FILE *f, matrix m)
     }
   }
 }
+
+matrix matrix_scalar(matrix m, double lambda) {
+	matrix m2 = matrix_create(m.n1, m.n2, 0);
+	for (unsigned i = 0; i < m.n1; i++){
+		for (unsigned j = 0; j < m.n2; j++){
+			*matrix_get(m2, i, j) = lambda * *matrix_get(m, i, j);
+		}
+	}
+	return m2;
+}
+
+double matrix_dot(matrix m1, matrix m2) {
+	double total = 0;
+	if (m1.n1 != m2.n1 || m1.n2 != m2.n2){
+		return 0;
+	}
+	for (unsigned i = 0; i < m1.n1; i++){
+		for (unsigned j = 0; j < m1.n2; j++){
+			total += *matrix_get(m1, i, j) * *matrix_get(m2, i, j);
+		}
+	}
+	return total;
+}
