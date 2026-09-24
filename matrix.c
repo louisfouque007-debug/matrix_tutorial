@@ -125,7 +125,10 @@ matrix matrix_transpose(matrix m) {
 
 matrix matrix_pow(matrix m, int n)
 {
-	if (m.n1 != m.n2) return {.n1 = 0; .n2 = 0; .ok=false; .data=NULL};
+	if (m.n1 != m.n2) {
+		matrix m1 = {.n1 = 0; .n2 = 0; .ok=false; .data=NULL};
+		return m1;
+	}
 	if (n <= 0) return matrix_identity(m.n1);
 	matrix m1 = matrix_pow(m, n/2);
 	matrix m2 = matrix_mult(m1, m1);
