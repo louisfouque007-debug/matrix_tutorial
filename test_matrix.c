@@ -56,4 +56,16 @@ UTEST(matrix_get, wrong) {
   ASSERT_TRUE(matrix_get(m, 0, 0)==NULL);
 }
 
+UTEST(matrix_transpose, simple) {
+	matrix m = matrix_identity(100);
+	*matrix_get(m, 11, 0) = 1;
+	matrix m2 = matrix_transpose(m);
+	ASSERT_TRUE(*matrix_get(m2, 0, 11) == 1);
+}
+
+UTEST(matrix_trace, simple) {	
+	matrix m = matrix_identity(12);
+	ASSERT_TRUE(matrix_trace(m) == 12);
+}
+
 UTEST_MAIN()  
