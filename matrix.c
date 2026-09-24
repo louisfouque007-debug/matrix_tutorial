@@ -106,7 +106,8 @@ matrix matrix_mult(matrix m1, matrix m2) {
   for(unsigned i=0; i<m1.n1; ++i)
     for(unsigned j=0; j<m2.n2; ++j)
 			for (unsigned k = 0; k<kk; k++)
-				*matrix_get(res, i, j) = *matrix_get(res, i, j) + *matrix_get(m1, i, k) + *matrix_get(m2, k, j);
+				*matrix_get(res, i, j) = *matrix_get(res, i, j) +
+							 	(*matrix_get(m1, i, k) * *matrix_get(m2, k, j));
 
   return res;
 
