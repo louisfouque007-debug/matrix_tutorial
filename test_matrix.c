@@ -102,7 +102,27 @@ UTEST(matrix_dot, zero)  {
   ASSERT_EQ(mm,0);
 }
 
-//matrix matrix_scalar(matrix m, double lambda);
-//double matrix_dot(matrix m1, matrix m2);
+UTEST(matrix_mult, testmult) {
+  matrix m1 = matrix_create(6, 7, 6.7);
+  matrix m2 = matrix_create(7, 8, 7.89);
+  matrix m3 = matrix_mult(m1, m2);
+  matrix m4 = matrix_mult(m2, m1);
+  ASSERT_TRUE(m3.ok == true);
+  ASSERT_TRUE(m4.ok == false);
+  ASSERT_NEAR(*matrix_get(m3, 0, 0), 370.041, 1e-5);
+  matrix_destroy(m1);
+  matrix_destroy(m2);
+  matrix_destroy(m3);
+  matrix_destroy(m4);
+}
+
+UTEST(matrix_pow, testpow) {
+  matrix m = matrix_create(7, 7, 9.);
+  matrix n = matrix_pow(m, 67);
+  matrix o = matrix_pow(m, 0);
+  ASSERT_NEAR(*matrix_get(n, 0, 0), 5.13710891275050618264802650675e119, 1e110);
+  ASSERT_NEAR(*matrix_get(o, 1, 1), 1., 1e-10);
+  ASSERT_NEAR(*matrix_get(o, 6, 7), 0., 1e-10);
+}
 
 UTEST_MAIN()  
