@@ -89,6 +89,9 @@ matrix matrix_scalar(matrix m, double lambda) {
 		for (unsigned j = 0; j < m.n2; j++){
 			*matrix_get(m2, i, j) = lambda * *matrix_get(m, i, j);
 		}
+	}
+	return m2;
+}
 
 
 
