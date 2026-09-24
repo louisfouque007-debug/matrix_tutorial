@@ -100,12 +100,12 @@ matrix matrix_mult(matrix m1, matrix m2) {
 
   if(m1.n2!=m2.n1 || !m1.ok || !m2.ok)
     return res;
-	int kk = m1.n2;
+	unsigned kk = m1.n2;
 
   res=matrix_create(m1.n1, m2.n2, 0.);
   for(unsigned i=0; i<m1.n1; ++i)
     for(unsigned j=0; j<m2.n2; ++j)
-			for (unsigned k; k<kk; k++)
+			for (unsigned k = 0; k<kk; k++)
 				*matrix_get(res, i, j) = *matrix_get(res, i, j) + *matrix_get(m1, i, k) + *matrix_get(m2, k, j);
 
   return res;
@@ -129,7 +129,7 @@ matrix matrix_transpose(matrix m) {
 matrix matrix_pow(matrix m, int n)
 {
 	if (m.n1 != m.n2) {
-		matrix m1 = {.n1 = 0; .n2 = 0; .ok=false; .data=NULL};
+		matrix m1 = {.n1 = 0, .n2 = 0, .ok=false, .data=NULL};
 		return m1;
 	}
 	if (n <= 0) return matrix_identity(m.n1);
@@ -163,7 +163,7 @@ double matrix_trace(matrix m)
 {
 		if (m.n1 != m.n2) return 0;
 		double s = 0.0;
-		for(int i=0; i<m.n1; i++)
+		for(unsigned i=0; i<m.n1; i++)
 		{
 				s += *matrix_get(m, i, i);
 		}
