@@ -89,6 +89,52 @@ matrix matrix_scalar(matrix m, double lambda) {
 		for (unsigned j = 0; j < m.n2; j++){
 			*matrix_get(m2, i, j) = lambda * *matrix_get(m, i, j);
 		}
+
+
+
+matrix matrix_mult(matrix m1, matrix m2) {
+  matrix res={m1.n1,m2.n2,false,NULL};
+
+  if(m1.n2!=m2.n1 || !m1.ok || !m2.ok)
+    return res;
+	int kk = m1.n2;
+
+  res=matrix_create(m1.n1, m2.n2, 0.);
+  for(unsigned i=0; i<m1.n1; ++i)
+    for(unsigned j=0; j<m2.n2; ++j)
+			for (unsigned k; k<kk; k++)
+				*matrix_get(res, i, j) = *matrix_get(res, i, j) + *matrix_get(m1, i, k) + *matrix_get(m2, k, j);
+
+  return res;
+
+}
+
+matrix matrix_transpose(matrix m) {
+  matrix res={m.n1,m.n2,false,NULL};
+
+  if(!m.ok)
+    return res;
+
+  res=matrix_create(m.n1, m.n2, 0.);
+  for(unsigned i=0; i<m.n1; ++i)
+    for(unsigned j=0; j<m.n2; ++j)
+			*matrix_get(res, i, j) = *matrix_get(m, j, i);
+
+  return res;
+}
+
+matrix matrix_pow(matrix m, int n)
+{
+	if (m.n1 != m.n2) return {.n1 = 0; .n2 = 0; .ok=false; .data=NULL};
+	if (n <= 0) return matrix_identity(m.n1);
+	matrix m1 = matrix_pow(m, n/2);
+	matrix m2 = matrix_mult(m1, m1);
+	matrix_destroy(m1);
+	if (n % 2) 
+	{
+			matrix m3 = matrix_mult(m2, m);
+			matrix_destroy(m2);
+			return m3;
 	}
 	return m2;
 }
@@ -105,3 +151,16 @@ double matrix_dot(matrix m1, matrix m2) {
 	}
 	return total;
 }
+
+
+double matrix_trace(matrix m)
+{
+		if (m.n1 != m.n2) return 0;
+		double s = 0.0;
+		for(int i=0; i<m.n1; i++)
+		{
+				s += *matrix_get(m, i, i);
+		}
+		return s;
+}
+
